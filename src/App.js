@@ -10,7 +10,7 @@ function App() {
   console.log("process", process.env);
   return (
     <Provider store={store}>
-      <div className="App bg-slate-200 min-h-screen bg-[url('images/hero.jpg')] bg-cover bg-repeat-y">
+      <div className="App min-h-screen bg-[url('images/hero.jpg')]">
         <div className="bg-[url('images/grid.svg')]">
           <Header />
           <FilterCard />

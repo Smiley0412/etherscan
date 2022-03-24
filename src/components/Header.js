@@ -1,5 +1,11 @@
-import React from "react";
+import { ReactComponent as Mark } from "../images/etherscan.svg";
 
 export default function Header() {
-  return <h1 className="text-3xl font-bold bg-white py-3">Hello world!</h1>;
+  return (
+    <div className="bg-white">
+      <div className="container m-auto flex justify-between">
+        <Mark className="w-48 h-auto m-3" />
+      </div>
+    </div>
+  );
 }
