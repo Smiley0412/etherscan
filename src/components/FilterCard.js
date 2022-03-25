@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { updateState } from "../services/filterSlice";
+import { updateState } from "../services/FilterSlice";
 
 export default function FilterCard() {
   const dispath = useDispatch();

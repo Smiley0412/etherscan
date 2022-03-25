@@ -4,9 +4,10 @@ const initialState = {
   address: null,
   startDate: null,
   startBlock: 0,
+  ethPrice: 0,
 };
 
-export const filterSlice = createSlice({
+export const FilterSlice = createSlice({
   name: "filter",
   initialState,
   reducers: {
@@ -16,6 +17,6 @@ export const filterSlice = createSlice({
   },
 });
 
-export const { updateState } = filterSlice.actions;
+export const { updateState } = FilterSlice.actions;
 
-export default filterSlice.reducer;
+export default FilterSlice.reducer;

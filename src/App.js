@@ -7,7 +7,6 @@ import TableCard from "./components/TableCard";
 import { store } from "./store";
 
 function App() {
-  console.log("process", process.env);
   return (
     <Provider store={store}>
       <div className="App min-h-screen bg-[url('images/hero.jpg')]">
