@@ -1,12 +1,29 @@
-import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getTransactionsFromAddressAndStartBlock } from "../services/ApiService";
 import { updateState } from "../services/FilterSlice";
 
 export default function FilterCard() {
   const dispath = useDispatch();
+  const filterAddress = useSelector((state) => state.filter.address);
+  const startBlock = useSelector((state) => state.filter.startBlock);
+  useEffect(() => {
+    if (IsNotAddress(filterAddress)) {
+      console.log("is not address");
+    } else {
+      getTransactionsFromAddressAndStartBlock(filterAddress, startBlock, 0, 25);
+    }
+  }, [filterAddress, startBlock]);
+
+  const IsNotAddress = (address) => {
+    if (address.length !== 42 || address.slice(0, 2) !== "0x") {
+      return true;
+    }
+    return false;
+  };
 
   const updateAddress = (event) => {
     if (event.key === "Enter") {
-      console.log(event.target.value);
       dispath(
         updateState({
           key: "address",
@@ -17,13 +34,14 @@ export default function FilterCard() {
   };
   const updateBlocknumber = (event) => {
     if (event.key === "Enter") {
-      console.log(event.target.value);
-      dispath(
-        updateState({
-          key: "startBlock",
-          value: event.target.value,
-        })
-      );
+      if (parseInt(event.target.value)) {
+        dispath(
+          updateState({
+            key: "startBlock",
+            value: parseInt(event.target.value),
+          })
+        );
+      }
     }
   };
 
