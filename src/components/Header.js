@@ -5,6 +5,8 @@ import { getEthPrice } from "../services/ApiService";
 import { formatNumber } from "../services/CommonService";
 
 export default function Header() {
+  const ethPrice = useSelector((state) => state.filter.ethPrice);
+
   useEffect(() => {
     getEthPrice();
     updateEthPrice();
@@ -15,7 +17,6 @@ export default function Header() {
       updateEthPrice();
     }, 5000);
   };
-  const ethPrice = useSelector((state) => state.filter.ethPrice);
   return (
     <div className="bg-white">
       <div className="container m-auto flex justify-between items-center">

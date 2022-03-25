@@ -17,7 +17,7 @@ export const getEthPrice = async () => {
       apikey: ETHSCAN_APIKEY,
     },
   });
-  if (res.status == 200) {
+  if (res.status === 200) {
     store.dispatch(
       updateState({
         key: "ethPrice",
@@ -44,11 +44,51 @@ export const getTransactionsFromAddressAndStartBlock = async (
       "X-API-KEY": MORALIS_APIKEY,
     },
   });
-  if (res.status == 200) {
+  if (res.status === 200) {
     store.dispatch(
       updateState({
         key: "data",
         value: res.data,
+      })
+    );
+  }
+};
+
+export const getBalanceFromAddressAndDate = async (address, date) => {
+  let res = !date
+    ? null
+    : await axios.get(BASE_MORALIS_URL + "dateToBlock", {
+        params: {
+          chain: "eth",
+          date: date,
+        },
+        headers: {
+          "X-API-KEY": MORALIS_APIKEY,
+        },
+      });
+  const block_number = res?.status === 200 ? res.data.block : null;
+  res = await axios.get(BASE_MORALIS_URL + address + "/balance", {
+    params: {
+      chain: "eth",
+      to_block: block_number,
+    },
+    headers: {
+      "X-API-KEY": MORALIS_APIKEY,
+    },
+  });
+  console.log(res);
+  if (res.status === 200) {
+    block_number === null &&
+      store.dispatch(
+        updateState({
+          key: "balance",
+          value: parseInt(res.data.balance),
+        })
+      );
+    store.dispatch(
+      updateState({
+        key: "balanceHistory",
+        value: parseInt(res.data.balance),
       })
     );
   }

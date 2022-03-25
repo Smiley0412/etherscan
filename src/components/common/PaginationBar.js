@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { getTransactionsFromAddressAndStartBlock } from "../../services/ApiService";
 
-export default function PagenationBar() {
+export default function PaginationBar() {
   const currentPage = useSelector((state) => state.filter.data.page);
   const totalPage = Math.ceil(
     useSelector((state) => state.filter.data.total) /

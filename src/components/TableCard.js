@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { useSelector } from "react-redux";
-import PagenationBar from "./common/PagenationBar";
+import PaginationBar from "./common/PaginationBar";
 export default function TableCard() {
   const [selected, setSelected] = useState("eth");
   const transactions = useSelector((state) => state.filter.data.result);
@@ -53,7 +53,7 @@ export default function TableCard() {
         <div className="block">
           <div className="lg:flex justify-between">
             <p className="p-5">Total: {total} transactions</p>
-            <PagenationBar />
+            <PaginationBar />
           </div>
         </div>
         <div className="p-5">

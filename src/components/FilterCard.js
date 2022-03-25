@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTransactionsFromAddressAndStartBlock } from "../services/ApiService";
+import {
+  getBalanceFromAddressAndDate,
+  getTransactionsFromAddressAndStartBlock,
+} from "../services/ApiService";
 import { updateState } from "../services/FilterSlice";
 
 export default function FilterCard() {
@@ -12,6 +15,7 @@ export default function FilterCard() {
       console.log("is not address");
     } else {
       getTransactionsFromAddressAndStartBlock(filterAddress, startBlock, 0, 25);
+      getBalanceFromAddressAndDate(filterAddress, null);
     }
   }, [filterAddress, startBlock]);
 

@@ -1,6 +1,14 @@
+import { useSelector } from "react-redux";
 import Select from "./common/Select";
+import { formatNumber } from "../services/CommonService";
+import { getBalanceFromAddressAndDate } from "../services/ApiService";
 
 export default function OverviewCard() {
+  const balance = useSelector((state) => state.filter.balance);
+  const filterAddress = useSelector((state) => state.filter.address);
+  const balanceHistory = useSelector((state) => state.filter.balanceHistory);
+  const ethPrice = useSelector((state) => state.filter.ethPrice);
+
   const items = [
     { id: 1, value: "Wade Cooper" },
     { id: 2, value: "Arlene Mccoy" },
@@ -18,6 +26,10 @@ export default function OverviewCard() {
     return year + "-" + month + "-" + date;
   };
 
+  const updateBalanceHistpry = (event) => {
+    getBalanceFromAddressAndDate(filterAddress, event.target.value);
+  };
+
   return (
     <div className="flex bg-transparent mt-5">
       <div className="container lg:flex m-auto lg:space-x-5">
@@ -26,12 +38,13 @@ export default function OverviewCard() {
           <div className="bg-slate-200 h-px -mx-3"></div>
           <div className="flex border-b">
             <h3 className="w-32 text-left p-2">Balance :</h3>
-            <p className="text-left p-2"> 3.141592 eth</p>
+            <p className="text-left p-2"> {balance / Math.pow(10, 18)} eth</p>
           </div>
           <div className="flex border-b">
             <h3 className="w-32 text-left p-2">Value :</h3>
             <p className="text-left p-2">
-              $9417.92 <span className="text-xs">(@ $2994.30/ETH)</span>
+              ${formatNumber((balance * ethPrice) / Math.pow(10, 18))}{" "}
+              <span className="text-xs">(@ ${ethPrice}/ETH)</span>
             </p>
           </div>
           <div className="flex">
@@ -48,17 +61,21 @@ export default function OverviewCard() {
               type="date"
               className="w-rest-32 border-none cursor-pointer focus-visible:outline-slate-200 leading-5 text-gray-900 my-1 shadow-sm px-2"
               defaultValue={today()}
-              onChange={(e) => console.log(e.target.value)}
+              onChange={(e) => updateBalanceHistpry(e)}
             />
           </div>
           <div className="flex border-b">
             <h3 className="w-32 text-left p-2">Balance :</h3>
-            <p className="text-left p-2"> 3.141592 eth</p>
+            <p className="text-left p-2">
+              {" "}
+              {balanceHistory / Math.pow(10, 18)} eth
+            </p>
           </div>
           <div className="flex">
             <h3 className="w-32 text-left p-2">Value :</h3>
             <p className="text-left p-2">
-              $9417.92 <span className="text-xs">(@ $2994.30/ETH)</span>
+              ${formatNumber((balanceHistory * ethPrice) / Math.pow(10, 18))}{" "}
+              <span className="text-xs">(@ ${ethPrice}/ETH)</span>
             </p>
           </div>
         </div>

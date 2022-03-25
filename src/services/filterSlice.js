@@ -2,15 +2,16 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   address: "",
-  startDate: null,
   startBlock: 0,
   ethPrice: 0,
+  balance: 0,
+  balanceHistory: 0,
   data: {
     total: 0,
     page: 0,
     page_size: 25,
-    result: []
-  }
+    result: [],
+  },
 };
 
 export const FilterSlice = createSlice({
