@@ -76,7 +76,6 @@ export const getBalanceFromAddressAndDate = async (address, date) => {
       "X-API-KEY": MORALIS_APIKEY,
     },
   });
-  console.log(res);
   if (res.status === 200) {
     block_number === null &&
       store.dispatch(
@@ -89,6 +88,25 @@ export const getBalanceFromAddressAndDate = async (address, date) => {
       updateState({
         key: "balanceHistory",
         value: parseInt(res.data.balance),
+      })
+    );
+  }
+};
+
+export const getTokensFromAddress = async (address) => {
+  const res = await axios.get(BASE_MORALIS_URL + address + "/erc20", {
+    params: {
+      chain: "eth",
+    },
+    headers: {
+      "X-API-KEY": MORALIS_APIKEY,
+    },
+  });
+  if (res.status === 200) {
+    store.dispatch(
+      updateState({
+        key: "tokens",
+        value: res.data,
       })
     );
   }

@@ -12,6 +12,7 @@ const initialState = {
     page_size: 25,
     result: [],
   },
+  tokens: [],
 };
 
 export const FilterSlice = createSlice({

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getBalanceFromAddressAndDate,
+  getTokensFromAddress,
   getTransactionsFromAddressAndStartBlock,
 } from "../services/ApiService";
 import { updateState } from "../services/FilterSlice";
@@ -16,6 +17,7 @@ export default function FilterCard() {
     } else {
       getTransactionsFromAddressAndStartBlock(filterAddress, startBlock, 0, 25);
       getBalanceFromAddressAndDate(filterAddress, null);
+      getTokensFromAddress(filterAddress);
     }
   }, [filterAddress, startBlock]);
 

@@ -9,7 +9,7 @@ export default function Header() {
 
   useEffect(() => {
     getEthPrice();
-    updateEthPrice();
+    // updateEthPrice();
   }, []);
   const updateEthPrice = () => {
     getEthPrice();
