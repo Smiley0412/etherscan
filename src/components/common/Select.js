@@ -25,6 +25,7 @@ export default function Select(props) {
               className="w-full border-none focus-visible:outline-slate-200 py-2 pl-3 pr-10 text-sm leading-5 text-gray-900"
               displayValue={(item) => (item ? item.value : null)}
               onChange={(event) => setQuery(event.target.value)}
+              autoComplete={false}
             />
             <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
               <SelectorIcon

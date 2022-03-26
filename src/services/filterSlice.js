@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  loading: false,
   address: "",
   startBlock: 0,
   ethPrice: 0,
@@ -13,6 +14,8 @@ const initialState = {
     result: [],
   },
   tokens: [],
+  selectedToken: null,
+  errorMessage: null,
 };
 
 export const FilterSlice = createSlice({
@@ -21,10 +24,18 @@ export const FilterSlice = createSlice({
   reducers: {
     updateState: (state, action) => {
       state[action.payload.key] = action.payload.value;
+      state.loading = false;
+    },
+    setLoading: (state, action) => {
+      state.loading = action.payload;
+    },
+    setErrorMessage: (state, action) => {
+      state.errorMessage = action.payload;
+      state.loading = false;
     },
   },
 });
 
-export const { updateState } = FilterSlice.actions;
+export const { updateState, setLoading, setErrorMessage } = FilterSlice.actions;
 
 export default FilterSlice.reducer;

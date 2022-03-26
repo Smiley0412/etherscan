@@ -1,22 +1,14 @@
 import { useSelector } from "react-redux";
-import Select from "./common/Select";
 import { formatNumber } from "../services/CommonService";
 import { getBalanceFromAddressAndDate } from "../services/ApiService";
+import ListBox from "./common/ListBox";
 
 export default function OverviewCard() {
   const balance = useSelector((state) => state.filter.balance);
   const filterAddress = useSelector((state) => state.filter.address);
   const balanceHistory = useSelector((state) => state.filter.balanceHistory);
   const ethPrice = useSelector((state) => state.filter.ethPrice);
-
-  const items = [
-    { id: 1, value: "Wade Cooper" },
-    { id: 2, value: "Arlene Mccoy" },
-    { id: 3, value: "Devon Webb" },
-    { id: 4, value: "Tom Cook" },
-    { id: 5, value: "Tanya Fox" },
-    { id: 6, value: "Hellen Schmidt" },
-  ];
+  const tokens = useSelector((state) => state.filter.tokens);
 
   const today = () => {
     let t = new Date();
@@ -49,7 +41,7 @@ export default function OverviewCard() {
           </div>
           <div className="flex">
             <h3 className="w-32 text-left p-2">Tokens :</h3>
-            <Select items={items} />
+            <ListBox items={tokens} />
           </div>
         </div>
         <div className="w-full my-8 p-3 bg-white rounded">

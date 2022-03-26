@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 
 import { useSelector } from "react-redux";
+import { getTokenTransactionsFromAddressAndTokens } from "../services/ApiService";
 import PaginationBar from "./common/PaginationBar";
 export default function TableCard() {
   const [selected, setSelected] = useState("eth");
   const transactions = useSelector((state) => state.filter.data.result);
   const total = useSelector((state) => state.filter.data.total);
+  const filterAddress = useSelector((state) => state.filter.address);
+  const startBlock = useSelector((state) => state.filter.startBlock);
+  const selectedToken = useSelector((state) => state.filter.selectedToken);
   useEffect(() => {
     console.log(transactions);
   }, [transactions]);
@@ -22,6 +26,13 @@ export default function TableCard() {
   };
   const changeTabs = (tab) => {
     setSelected(tab);
+    if (tab === "token") {
+      getTokenTransactionsFromAddressAndTokens(
+        filterAddress,
+        startBlock,
+        selectedToken
+      );
+    }
   };
   return (
     <div className="mt-5">
