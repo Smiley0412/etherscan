@@ -8,15 +8,16 @@ export default function Header() {
   const ethPrice = useSelector((state) => state.filter.ethPrice);
 
   useEffect(() => {
+    const updateEthPrice = () => {
+      getEthPrice();
+      setTimeout(() => {
+        updateEthPrice();
+      }, 5000);
+    };
+
     getEthPrice();
-    // updateEthPrice();
+    updateEthPrice();
   }, []);
-  const updateEthPrice = () => {
-    getEthPrice();
-    setTimeout(() => {
-      updateEthPrice();
-    }, 5000);
-  };
   return (
     <div className="bg-white">
       <div className="container m-auto flex justify-between items-center">

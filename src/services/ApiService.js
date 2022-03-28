@@ -140,13 +140,13 @@ export const getTokenTransactionsFromAddressAndTokens = (
   startBlock,
   token
 ) => {
-  store.dispatch(setLoading(true));
   store.dispatch(
     updateState({
       key: "selectedToken",
       value: token,
     })
   );
+  store.dispatch(setLoading(true));
   let url = "";
   let data = {};
   if (token) {
@@ -176,7 +176,15 @@ export const getTokenTransactionsFromAddressAndTokens = (
   axios
     .get(url, data)
     .then((res) => {
-      if (res.data.message === "OK") {
+      let oldTokens = store.getState().filter.tokens;
+      let newTokens = res.data.result
+        .map((tx) => tx?.address || tx?.contractAddress)
+        .filter((value, index, self) => self.indexOf(value) === index)
+        .filter(
+          (value) => oldTokens.map((o) => o.token_address).indexOf(value) === -1
+        );
+
+      if (res.data.message === "OK" || newTokens.length === 0) {
         store.dispatch(
           updateState({
             key: "data",
@@ -185,14 +193,6 @@ export const getTokenTransactionsFromAddressAndTokens = (
         );
         store.dispatch(updateState({ key: "selected", value: "token" }));
       } else if (token === null || token === undefined) {
-        let oldTokens = store.getState().filter.tokens;
-        let newTokens = res.data.result
-          .map((tx) => tx?.address || tx?.contractAddress)
-          .filter((value, index, self) => self.indexOf(value) === index)
-          .filter(
-            (value) =>
-              oldTokens.map((o) => o.token_address).indexOf(value) === -1
-          );
         axios
           .get(BASE_MORALIS_URL + "erc20/metadata", {
             params: {
