@@ -20,7 +20,7 @@ export const getEthPrice = () => {
       },
     })
     .then((res) => {
-      if (res.data.message == "OK")
+      if (res.data.message === "OK")
         store.dispatch(
           updateState({
             key: "ethPrice",
@@ -60,6 +60,7 @@ export const getTransactionsFromAddressAndStartBlock = (
           value: res.data,
         })
       );
+      store.dispatch(updateState({ key: "selected", value: "eth" }));
     })
     .catch((err) => {
       store.dispatch(setErrorMessage(err.message));
@@ -175,14 +176,58 @@ export const getTokenTransactionsFromAddressAndTokens = (
   axios
     .get(url, data)
     .then((res) => {
-      if (res.data.message == "OK" || token === null || token === undefined)
+      if (res.data.message === "OK") {
         store.dispatch(
           updateState({
             key: "data",
             value: formatTokenTransactions(res.data),
           })
         );
-      else store.dispatch(setErrorMessage(res.data.result));
+        store.dispatch(updateState({ key: "selected", value: "token" }));
+      } else if (token === null || token === undefined) {
+        let oldTokens = store.getState().filter.tokens;
+        let newTokens = res.data.result
+          .map((tx) => tx?.address || tx?.contractAddress)
+          .filter((value, index, self) => self.indexOf(value) === index)
+          .filter(
+            (value) =>
+              oldTokens.map((o) => o.token_address).indexOf(value) === -1
+          );
+        axios
+          .get(BASE_MORALIS_URL + "erc20/metadata", {
+            params: {
+              chain: "eth",
+              addresses: newTokens,
+            },
+            headers: {
+              "X-API-KEY": MORALIS_APIKEY,
+            },
+          })
+          .then((metadatas) => {
+            oldTokens = oldTokens.concat(
+              metadatas.data.map((m) => {
+                m.token_address = m.address;
+                return m;
+              })
+            );
+            store.dispatch(
+              updateState({
+                key: "tokens",
+                value: oldTokens,
+              })
+            );
+            store.dispatch(
+              updateState({
+                key: "data",
+                value: formatTokenTransactions(res.data),
+              })
+            );
+            store.dispatch(updateState({ key: "selected", value: "token" }));
+          })
+          .catch((error) => {
+            store.dispatch(setErrorMessage(error.message));
+          });
+      } else store.dispatch(setErrorMessage(res.data.result));
     })
     .catch((err) => {
       store.dispatch(setErrorMessage(err.message));

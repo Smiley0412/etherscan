@@ -13,7 +13,7 @@ export default function FilterCard() {
   const startBlock = useSelector((state) => state.filter.startBlock);
   useEffect(() => {
     if (IsNotAddress(filterAddress)) {
-      console.log("is not address");
+      // console.log("is not address");
     } else {
       getTransactionsFromAddressAndStartBlock(filterAddress, startBlock, 0, 25);
       getBalanceFromAddressAndDate(filterAddress, null);

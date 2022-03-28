@@ -8,7 +8,9 @@ export default function OverviewCard() {
   const filterAddress = useSelector((state) => state.filter.address);
   const balanceHistory = useSelector((state) => state.filter.balanceHistory);
   const ethPrice = useSelector((state) => state.filter.ethPrice);
-  const tokens = useSelector((state) => state.filter.tokens);
+  const tokens = useSelector((state) => state.filter.tokens).filter((t) =>
+    t.hasOwnProperty("balance")
+  );
 
   const today = () => {
     let t = new Date();

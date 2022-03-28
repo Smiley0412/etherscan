@@ -16,7 +16,8 @@ export const formatTokenTransactions = (txs) => {
     r.contractAddress = tx?.address || tx?.contractAddress;
     r.from_address = tx?.from || tx?.from_address;
     r.to_address = tx?.to || tx?.to_address;
-    r.block_timestamp = tx?.block_timestamp || tx?.timeStamp;
+    r.block_timestamp = tx?.block_timestamp;
+    r.timeStamp = tx?.timeStamp + "000";
     r.block_hash = tx?.block_hash || tx?.blockHash;
     r.value = tx?.value;
     r.block_number = tx?.block_number || tx?.blockNumber;

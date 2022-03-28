@@ -14,6 +14,7 @@ const initialState = {
     result: [],
   },
   tokens: [],
+  selected: "eth",
   selectedToken: null,
   errorMessage: null,
 };

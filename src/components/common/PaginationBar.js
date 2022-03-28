@@ -4,13 +4,11 @@ import { getTransactionsFromAddressAndStartBlock } from "../../services/ApiServi
 
 export default function PaginationBar() {
   const currentPage = useSelector((state) => state.filter.data.page);
-  const totalPage = Math.ceil(
-    useSelector((state) => state.filter.data.total) /
-      useSelector((state) => state.filter.data.page_size)
-  );
   const filterAddress = useSelector((state) => state.filter.address);
   const startBlock = useSelector((state) => state.filter.startBlock);
   const limit = useSelector((state) => state.filter.data.page_size);
+  const total = useSelector((state) => state.filter.data.total);
+  const totalPage = limit ? Math.ceil(total / limit) : 1;
 
   const goToPage = (page) => {
     if (page >= 0 && page <= totalPage && page !== currentPage) {
